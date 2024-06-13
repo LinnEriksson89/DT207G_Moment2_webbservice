@@ -1,0 +1,30 @@
+{
+  "name": "dt207g_moment2_webbservice",
+  "version": "1.0.0",
+  "description": "Webbservice for Moment 2 in DT207G",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Hello World\"",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinnEriksson89/DT207G_Moment2_webbservice.git"
+  },
+  "author": "Linn Eriksson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LinnEriksson89/DT207G_Moment2_webbservice/issues"
+  },
+  "homepage": "https://github.com/LinnEriksson89/DT207G_Moment2_webbservice#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mysql2": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
