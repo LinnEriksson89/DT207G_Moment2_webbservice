@@ -29,7 +29,43 @@ app.get("/api/work", (req, res) => {
 
 //Post /api/work
 app.post("/api/work", (req, res) => {
-    res.json({ message: "POST request to /api/work" });
+    let companyname = req.body.companyname;
+    let jobtitle = req.body.jobtitle;
+    let location = req.body.location;
+    let startdate = req.body.startdate;
+    let enddate = req.body.enddate;
+    let description = req.body.description;
+
+    let error = {
+        message: "",
+        details: "",
+        https_response: {}
+    };
+
+    //If any fields of information are empty.
+    if(!companyname || !jobtitle || !location || !startdate || !enddate || !description) {
+        
+        //Error messages and response code.
+        error.message = "Information not included in request!";
+        error.details = "Adding a job requires companyname, jobtitle, location, startdate, enddate and description.";
+        error.https_response.message = "Bad Request";
+        error.https_response.code = 400;
+        
+        //Send error-message and return.
+        res.status(400).json(error);
+        return;
+    }
+
+    let job = {
+        companyname: companyname,
+        jobtitle: jobtitle,
+        location: location,
+        startdate: startdate,
+        enddate: enddate,
+        description: description
+    }
+
+    res.json({ message: "Job added: ", job });
 });
 
 //Put /api/work/:id
