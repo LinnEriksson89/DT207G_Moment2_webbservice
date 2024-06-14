@@ -7,7 +7,9 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const mysql = require("mysql2");
 const port = process.env.PORT || 4000;
+require("dotenv").config();
 
 //Use JSON in API-calls.
 app.use(express.json());
@@ -15,8 +17,25 @@ app.use(express.json());
 //Activate CORS middleware for all routes.
 app.use(cors());
 
-//All routes.
+//Connect to database
+const connect = mysql.createConnection({
+    host: process.env.DBHOST,
+    user: process.env.DBUSERNAME,
+    password: process.env.DBPASSWORD,
+    database: process.env.DBDATABASE
+});
 
+connect.connect((err) => {
+    if(err) {
+        //If there's a connection error.
+        console.log("Connection failed: " + err);
+        return;
+    }
+
+    console.log("Connected to database");
+});
+
+//All routes.
 //Get /api
 app.get("/api", (req, res) => {
     res.json({ message: "Welcome to the API." });
@@ -24,7 +43,20 @@ app.get("/api", (req, res) => {
 
 //Get /api/work
 app.get("/api/work", (req, res) => {
-    res.json({ message: "GET request to /api/work" });
+
+    //Get jobs.
+    connect.query(`SELECT * FROM jobs;`, (err, result) => {
+        if(err) {
+            res.status(500).json({error: "Something went wrong: " + err})
+            return;
+        }
+
+        if(result.length === 0){
+            res.status(404).json({message: "No users found."});
+        } else {
+            res.json(result);
+        }
+    });
 });
 
 //Post /api/work
