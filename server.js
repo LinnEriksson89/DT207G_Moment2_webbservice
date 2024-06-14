@@ -17,6 +17,9 @@ app.use(express.json());
 //Activate CORS middleware for all routes.
 app.use(cors());
 
+//To be able to send data with post.
+app.use(express.urlencoded({extended:true}));
+
 //Connect to database
 const connect = mysql.createConnection({
     host: process.env.DBHOST,
@@ -79,7 +82,7 @@ app.post("/api/work", (req, res) => {
         
         //Error messages and response code.
         error.message = "Information not included in request!";
-        error.details = "Adding a job requires companyname, jobtitle, location, startdate, enddate and description.";
+        error.details = "Adding a job requires company name, job title, location, start date, end date and description.";
         error.https_response.message = "Bad Request";
         error.https_response.code = 400;
         
@@ -88,16 +91,27 @@ app.post("/api/work", (req, res) => {
         return;
     }
 
-    let job = {
-        companyname: companyname,
-        jobtitle: jobtitle,
-        location: location,
-        startdate: startdate,
-        enddate: enddate,
-        description: description
-    }
+    //Create and run query.
+    connect.query(`INSERT INTO jobs VALUES(?, ?, ?, ?, ?, ?, ?);`, [null, companyname, jobtitle, location, startdate, enddate, description], (err, result) => {
+        //Error-handling
+        if(err) {
+            res.status(500).json({error: "Something went wrong: " + err})
+            return;
+        }
 
-    res.json({ message: "Job added: ", job });
+        //Create job-object
+        let job = {
+            companyname: companyname,
+            jobtitle: jobtitle,
+            location: location,
+            startdate: startdate,
+            enddate: enddate,
+            description: description
+        }
+                        
+        //Show message on completion.
+        res.json({ message: "Job added: ", job });
+    });
 });
 
 //Put /api/work/:id
