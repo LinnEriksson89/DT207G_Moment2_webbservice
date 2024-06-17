@@ -190,7 +190,16 @@ app.put("/api/work/:id", (req, res) => {
 
 //Delete /api/work/:id
 app.delete("/api/work/:id", (req, res) => {
-      res.json({ message: "Job with id " + id + " deleted."});
+    let id = req.params.id;
+
+    connect.query(`DELETE FROM jobs WHERE id=?;`, id,  (err, result) => {
+        if(err) {
+            res.status(500).json({error: "Something went wrong: " + err})
+            return;
+        } else {
+            res.json({ message: "Job with id " + id + " deleted."});
+        }
+    });
 });
 
 //Route not found
