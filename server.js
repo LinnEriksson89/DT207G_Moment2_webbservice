@@ -115,13 +115,62 @@ app.post("/api/work", (req, res) => {
 });
 
 //Put /api/work/:id
-app.put("/api/work/:id", (req, res) => {
-    res.json({ message: "PUT request to /api/work/ with id: " + req.params.id });
+app.put("/api/work/:id", (req, res) => {    
+    let id = req.params.id;
+    let companyname = req.body.companyname;
+    let jobtitle = req.body.jobtitle;
+    let location = req.body.location;
+    let startdate = req.body.startdate;
+    let enddate = req.body.enddate;
+    let description = req.body.description;
+
+    let error = {
+        message: "",
+        details: "",
+        https_response: {}
+    };
+
+    //If any fields of information are empty.
+    if(!id || !companyname || !jobtitle || !location || !startdate || !enddate || !description) {
+        
+        //Error messages and response code.
+        error.message = "Information not included in request!";
+        error.details = "Updating a job requires id, company name, job title, location, start date, end date and description.";
+        error.https_response.message = "Bad Request";
+        error.https_response.code = 400;
+        
+        //Send error-message and return.
+        res.status(400).json(error);
+        return;
+    }
+
+    //Create and run query.
+    connect.query(`UPDATE jobs SET companyname = ?, jobtitle = ?, location = ?, startdate = ?, enddate = ?, description = ? WHERE id=?;`, [companyname, jobtitle, location, startdate, enddate, description, id], (err, result) => {
+        //Error-handling
+        if(err) {
+            res.status(500).json({error: "Something went wrong: " + err})
+            return;
+        }
+
+        //Create job-object
+        let job = {
+            id: id,
+            companyname: companyname,
+            jobtitle: jobtitle,
+            location: location,
+            startdate: startdate,
+            enddate: enddate,
+            description: description
+        }
+                        
+        //Show message on completion.
+        res.json({ message: "Job updated: ", job });
+    });
 });
 
 //Delete /api/work/:id
 app.delete("/api/work/:id", (req, res) => {
-    res.json({ message: "DELETE request to api/work/ with id: " + req.params.id });
+      res.json({ message: "Job with id " + id + " deleted."});
 });
 
 //Route not found
