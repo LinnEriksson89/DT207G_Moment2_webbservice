@@ -109,6 +109,36 @@ app.post("/api/work", (req, res) => {
         //Send error-message and return.
         res.status(400).json(error);
         return;
+    } else if (companyname.length < 4 || companyname.length > 32) {
+        //If companyname is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Company name has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+
+        return;
+    } else if (jobtitle.length < 4 || jobtitle.length > 64) {
+        //If job title is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Job title has to be between 4-64 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+
+        return;
+    } else if (location.length < 4 || location.length > 32) {
+        //If location is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Location has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+        return;
+    } else if (description.length < 10 || description.length > 128) {
+        //If description is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Description has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+        return;
     }
 
     //Create and run query.
@@ -161,6 +191,36 @@ app.put("/api/work/:id", (req, res) => {
         
         //Send error-message and return.
         res.status(400).json(error);
+        return;
+    } else if (companyname.length < 4 || companyname.length > 32) {
+        //If companyname is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Company name has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+
+        return;
+    } else if (jobtitle.length < 4 || jobtitle.length > 64) {
+        //If job title is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Job title has to be between 4-64 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+
+        return;
+    } else if (location.length < 4 || location.length > 32) {
+        //If location is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Location has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
+        return;
+    } else if (description.length < 10 || description.length > 128) {
+        //If description is too short or too long.
+        error.message = "Incorrect information.";
+        error.details = "Description has to be between 4-32 characters long.";
+        error.https_response.message = "Bad request";
+        error.https_response.code = 400;
         return;
     }
 
