@@ -31,7 +31,7 @@ Fältet id är primärnyckel i tabellen.
 
 Jobb-objekten som hämtas eller skickas hanteras i JSON och ser ut som nedan.
 
-...
+```
   {
     "id": 1,
     "companyname": "Namn",
@@ -41,4 +41,4 @@ Jobb-objekten som hämtas eller skickas hanteras i JSON och ser ut som nedan.
     "enddate": "2019-12-31",
     "description": "Beskrivning"
   }
-...
+```
