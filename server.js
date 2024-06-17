@@ -62,6 +62,26 @@ app.get("/api/work", (req, res) => {
     });
 });
 
+//Get individual job via /api/work/id
+app.get("/api/work/:id", (req, res) => {
+
+    let id = req.params.id;
+
+    //Get jobs.
+    connect.query(`SELECT * FROM jobs WHERE id=?;`, id, (err, result) => {
+        if(err) {
+            res.status(500).json({error: "Something went wrong: " + err})
+            return;
+        }
+
+        if(result.length === 0){
+            res.status(404).json({message: "No users found."});
+        } else {
+            res.json(result);
+        }
+    });
+});
+
 //Post /api/work
 app.post("/api/work", (req, res) => {
     let companyname = req.body.companyname;
