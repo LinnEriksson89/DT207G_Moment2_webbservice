@@ -6,7 +6,9 @@ APIet är inte publicerat på internet utan är enbart tillgängligt i detta rep
 
 ## Installation
 För att köra detta API lokalt krävs en MySQL-databas, tex via XAMPP.
-Utöver det kan man klona ner detta repo och köra npm install för att installera nödvändinga npm-paket. Att köra install.js skapar sedan databas-tabellen "jobs" enligt följande:
+Utöver det kan man klona ner detta repo och köra "npm install" för att installera nödvändinga npm-paket.
+
+Att köra install.js skapar sedan databas-tabellen "jobs" enligt följande:
 |Fält       |Krav           |NOT NULL   |Övrigt         |
 |-----------|---------------|-----------|---------------|
 |id         |int(2)         |X          |AUTO_INCREMENT |
@@ -19,7 +21,10 @@ Utöver det kan man klona ner detta repo och köra npm install för att installe
 
 Fältet id är primärnyckel i tabellen.
 
-## Metoder
+## Köra server
+För att köra servern används sedan kommandot "node server.js". Man kan också använda nodemon för att köra server, detta görs genom kommandot "npm run dev".
+
+### Metoder
 |Metod  |URI            |Beskrivning                |
 |-------|---------------|---------------------------|
 |GET    |/api           |Välkomstmeddelande.        |
