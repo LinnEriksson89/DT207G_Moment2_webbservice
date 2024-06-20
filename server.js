@@ -15,7 +15,9 @@ require("dotenv").config();
 app.use(express.json());
 
 //Activate CORS middleware for all routes.
-app.use(cors());
+app.use(cors({
+    methods: "GET, PUT, POST, DELETE"
+}));
 
 //To be able to send data with post.
 app.use(express.urlencoded({extended:true}));
@@ -48,7 +50,7 @@ app.get("/api", (req, res) => {
 app.get("/api/work", (req, res) => {
 
     //Get jobs.
-    connect.query(`SELECT * FROM jobs;`, (err, result) => {
+    connect.query(`SELECT id, companyname, jobtitle, location, DATE_FORMAT(startdate, "%Y-%m-%d") AS startdate, DATE_FORMAT(enddate, "%Y-%m-%d") AS enddate, description FROM jobs;`, (err, result) => {
         if(err) {
             res.status(500).json({error: "Something went wrong: " + err})
             return;
@@ -68,7 +70,7 @@ app.get("/api/work/:id", (req, res) => {
     let id = req.params.id;
 
     //Get jobs.
-    connect.query(`SELECT * FROM jobs WHERE id=?;`, id, (err, result) => {
+    connect.query(`SELECT id, companyname, jobtitle, location, DATE_FORMAT(startdate, "%Y-%m-%d") AS startdate, DATE_FORMAT(enddate, "%Y-%m-%d") AS enddate, description FROM jobs WHERE id=?;`, id, (err, result) => {
         if(err) {
             res.status(500).json({error: "Something went wrong: " + err})
             return;
@@ -168,9 +170,9 @@ app.post("/api/work", (req, res) => {
             enddate: enddate,
             description: description
         }
-                        
+
         //Show message on completion.
-        res.json({ message: "Job added: ", job });
+        res.status(201).json({ message: "Job added: ", job });
     });
 });
 
@@ -277,7 +279,7 @@ app.delete("/api/work/:id", (req, res) => {
             res.status(500).json({error: "Something went wrong: " + err})
             return;
         } else {
-            res.json({ message: "Job with id " + id + " deleted."});
+            res.status(200).json({ message: "Job with id " + id + " deleted."});
         }
     });
 });
